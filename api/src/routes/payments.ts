@@ -10,7 +10,7 @@ export const paymentRouter = new Hono<{ Bindings: Env }>()
     const json = await c.req.json();
     const parseResult = CreatePaymentSchema.safeParse(json);
     if (!parseResult.success) {
-      const details = parseResult.error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ');
+      const details = parseResult.error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ');
       return c.json({ error: 'Invalid payload', details }, 400);
     }
     const payload: CreatePaymentDto = parseResult.data;
